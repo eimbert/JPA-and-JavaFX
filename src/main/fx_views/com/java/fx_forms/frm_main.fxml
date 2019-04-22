@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="974.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.java.fx_controlers.FormMainControler">
+   <center>
+      <SplitPane dividerPositions="0.2791519434628975" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <GridPane layoutX="24.0" layoutY="40.0" prefHeight="103.0" prefWidth="284.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Usuario:" GridPane.halignment="RIGHT">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="Contraeseña:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <PasswordField fx:id="fx_contrasenya" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="fx_usuario" GridPane.columnIndex="1" />
+                        <Button fx:id="fx_btn_iniciar" mnemonicParsing="false" text="Iniciar" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </GridPane>
+                  <Label layoutX="414.0" layoutY="69.0" text="Usuario activo:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="fx_nombreDeUsuarioActivo" layoutX="511.0" layoutY="71.0" text="Label">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="457.0" prefWidth="972.0">
+               <children>
+                  <TableView fx:id="fx_tableView_Productos" layoutX="6.0" prefHeight="395.0" prefWidth="510.0">
+                    <columns>
+                      <TableColumn fx:id="fx_tableView_Productos_idProducto" prefWidth="75.0" text="IdProducto" visible="false" />
+                      <TableColumn fx:id="fx_tableView_Productos_producto" prefWidth="119.0" text="Producto" />
+                        <TableColumn fx:id="fx_tableView_Productos_descripcion" prefWidth="253.0" text="Descripción" />
+                        <TableColumn fx:id="fx_tableView_Productos_pvp" prefWidth="60.0" text="PVP" />
+                        <TableColumn fx:id="fx_tableView_Productos_stock" prefWidth="75.0" text="Stock" />
+                    </columns>
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem fx:id="fx_menuTabViewProductos" mnemonicParsing="false" text="Añadir producto a la cesta" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu>
+                  </TableView>
+                  <ImageView fitHeight="48.0" fitWidth="47.0" layoutX="611.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="/com/java/fx_resources/basket.png" />
+                     </image>
+                  </ImageView>
+                  <TableView fx:id="fx_tabViewCarrito" blendMode="GREEN" layoutX="611.0" layoutY="62.0" prefHeight="261.0" prefWidth="302.0">
+                    <columns>
+                      <TableColumn fx:id="fx_tabViewCarrito_producto" prefWidth="116.0" text="Producto" />
+                      <TableColumn fx:id="fx_tabViewCarrito_pvp" prefWidth="53.0" text="PVP" />
+                        <TableColumn fx:id="fx_tabViewCarrito_cantidad" prefWidth="56.0" text="Cantidad" />
+                        <TableColumn fx:id="fx_tabViewCarrito_total" prefWidth="75.0" text="Total" />
+                        <TableColumn fx:id="fx_tabViewCarrito_idProducto" prefWidth="75.0" text="idProducto" visible="false" />
+                    </columns>
+                  </TableView>
+                  <Label layoutX="707.0" layoutY="322.0" text="Total Compra:">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="fx_totalCompra" alignment="CENTER_RIGHT" layoutX="837.0" layoutY="322.0" prefHeight="28.0" prefWidth="76.0" text="0,0€">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="661.0" layoutY="21.0" text="Mi carrito de la compra">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="fx_btnRealizarPedido" layoutX="676.0" layoutY="362.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="188.0" text="Realizar Pedido" textFill="#9c700b">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </center>
+</BorderPane>

@@ -1,0 +1,50 @@
+public class TableViewSample extends Application {
+
+  private TableView table = new TableView();
+
+	public static void main(String[] args) {
+
+		launch(args);
+
+	}
+
+	@Override
+	public void start(Stage stage) throws Exception {
+		Group group = new Group();
+		Scene scene = new Scene(group);
+		stage.setTitle("Table View Sample");
+		stage.setWidth(400);
+		stage.setHeight(500);
+
+		ObservableList<Person> data = FXCollections.observableArrayList(
+				new Person("Paco", "Perez", "12345678",new Button("Info")), 
+				new Person("Isabella", "Garcia","12345678", new Button("Info")),
+				new Person("Juan", "Juanes", "12345678",new Button("Info")), 
+				new Person("German", "Jones","12345678", new Button("Info")),
+				new Person("Erick", "Mancha", "12345678",new Button("Info")));
+
+		table.setEditable(true);
+		table.setMinWidth(390);
+
+		TableColumn firstNameCol = new TableColumn("Primer Nombre");
+		firstNameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("firstName"));
+		firstNameCol.setMinWidth(100);
+		TableColumn lastNameCol = new TableColumn("Segundo Nombre");
+		lastNameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("lastName"));
+		lastNameCol.setMinWidth(100);
+		TableColumn phoneCol = new TableColumn("Teléfono");
+		phoneCol.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
+		phoneCol.setMinWidth(100);
+		TableColumn infoCol = new TableColumn("Información");
+		infoCol.setCellValueFactory(new PropertyValueFactory<Person, String>("button"));
+		infoCol.setMinWidth(80);
+		
+		table.setItems(data);
+		table.getColumns().addAll(firstNameCol, lastNameCol, phoneCol, infoCol);
+
+		group.getChildren().add(table);
+
+		stage.setScene(scene);
+		stage.show();
+	}
+}
