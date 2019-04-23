@@ -30,6 +30,7 @@ public class ControlerTabViewBasket {
 		for(ShoppingBasket b: data) {
 			if(b.getIdProduct() == product.getIdProduct()) {
 				b.getSpinnerQuantity().increment();
+				b.setCantidad(b.getCantidad() + 1);
 				int xx = (int) b.getSpinnerQuantity().getValue();
 				b.setTotalAmount(b.getPvp() * xx);
 				return;

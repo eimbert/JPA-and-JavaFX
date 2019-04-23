@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import com.java.JPAconector.JPAControler;
+import com.java.fx_message_manager.ControlMensajes;
+import com.java.so.Client;
 import com.java.so.Product;
 
 import javafx.collections.FXCollections;
@@ -24,7 +26,7 @@ import javafx.scene.input.MouseEvent;
 
 public class FormMainControler implements Initializable{
 	JPAControler jpaControler = new JPAControler("cestaCompra");
-	
+	Client usuarioActivo;
 	ObservableList<ShoppingBasket> dataBasket = FXCollections.observableArrayList();
 	ObservableList<Product> dataProducts = FXCollections.observableArrayList();
 
@@ -106,6 +108,15 @@ public class FormMainControler implements Initializable{
 			jpaControler.commit();
 			jpaControler.closeEm();
 			//Borrar cesta compra
+		});
+		
+		fx_btn_iniciar.setOnMouseClicked((MouseEvent mouseEvent) -> {
+			if("".equals(fx_contrasenya.getText()) || "".equals(fx_usuario.getText())){
+				ControlMensajes.mostrarAlerta("Es necesario introducir un usuario y contraseña validos.");
+			}else {
+				//buscar usuario
+			}
+				
 		});
 	}
 	
