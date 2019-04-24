@@ -26,7 +26,7 @@ import javafx.scene.input.MouseEvent;
 
 public class FormMainControler implements Initializable{
 	JPAControler jpaControler = new JPAControler("cestaCompra");
-	Client usuarioActivo;
+	Client usuarioActivo = null;
 	ObservableList<ShoppingBasket> dataBasket = FXCollections.observableArrayList();
 	ObservableList<Product> dataProducts = FXCollections.observableArrayList();
 
@@ -93,18 +93,23 @@ public class FormMainControler implements Initializable{
 	public void listeners() { 
 		fx_tableView_Productos.setOnMouseClicked(( MouseEvent mouseEvent) ->{
 			if(mouseEvent.getClickCount()==2) {
-				//Añadir poroducto a la cesta de la compra
-				ControlerTabViewBasket.addProductToBasket(this, dataBasket);
-				ControlerTabViewBasket.cargarProductos(this, dataBasket);
-				actualizarTotalCesta();
-				actualizarStock();
-				
-				jpaControler.persitObjProduct(fx_tableView_Productos.getSelectionModel().getSelectedItem().getIdProduct(),
-											  fx_tableView_Productos.getSelectionModel().getSelectedItem().getStock());
+				if(usuarioActivo == null) {
+					ControlMensajes.mostrarAlerta("Es necesario identificarse antes de iniciar la compra.");
+				}else {
+					//Añadir poroducto a la cesta de la compra
+					jpaControler.persitObj(ControlerTabViewBasket.addProductToBasket(this, dataBasket));
+					ControlerTabViewBasket.cargarProductos(this, dataBasket);
+					actualizarTotalCesta();
+					actualizarStock();
+					
+					jpaControler.persitObjProduct(fx_tableView_Productos.getSelectionModel().getSelectedItem().getIdProduct(),
+												  fx_tableView_Productos.getSelectionModel().getSelectedItem().getStock());
+				}
 			}
 		});
 		
 		fx_btnRealizarPedido.setOnMouseClicked((MouseEvent mouseEvent) ->{
+			//commit del carrito, de los productos y del cliente
 			jpaControler.commit();
 			jpaControler.closeEm();
 			//Borrar cesta compra
@@ -114,7 +119,8 @@ public class FormMainControler implements Initializable{
 			if("".equals(fx_contrasenya.getText()) || "".equals(fx_usuario.getText())){
 				ControlMensajes.mostrarAlerta("Es necesario introducir un usuario y contraseña validos.");
 			}else {
-				//buscar usuario
+				usuarioActivo = jpaControler.buscarUsuario(this.fx_usuario.getText(), this.fx_contrasenya.getText());
+				fx_nombreDeUsuarioActivo.setText(usuarioActivo.getNombre());
 			}
 				
 		});

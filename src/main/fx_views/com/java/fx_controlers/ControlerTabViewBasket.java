@@ -24,7 +24,7 @@ public class ControlerTabViewBasket {
 		
 	}
 	
-	public static void addProductToBasket(FormMainControler parentForm, ObservableList<ShoppingBasket> data) {
+	public static ShoppingBasket addProductToBasket(FormMainControler parentForm, ObservableList<ShoppingBasket> data) {
 		Product product = parentForm.fx_tableView_Productos.getSelectionModel().getSelectedItem();
 		
 		for(ShoppingBasket b: data) {
@@ -33,12 +33,12 @@ public class ControlerTabViewBasket {
 				b.setCantidad(b.getCantidad() + 1);
 				int xx = (int) b.getSpinnerQuantity().getValue();
 				b.setTotalAmount(b.getPvp() * xx);
-				return;
+				return b;
 			}
 		}
 		ShoppingBasket basket = new ShoppingBasket(product.getIdProduct(),  product.getNameProduct(),  product.getPrice(), new Spinner(), product.getStock());
 		basket.setFrmParent(parentForm);
 		data.add(basket);
-		
+		return basket;
 	}
 }

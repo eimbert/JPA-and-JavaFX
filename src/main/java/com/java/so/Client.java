@@ -17,7 +17,8 @@ public class Client {
 	@Basic(optional = false)
 	private String password;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY) //cambiar por onetomany
+	//List <ShoppingBasket> basketClient;
 	private ShoppingBasket basketClient;
 
 	

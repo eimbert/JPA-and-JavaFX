@@ -5,7 +5,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
+import com.java.so.Client;
 import com.java.so.Product;
 
 import javafx.collections.ObservableList;
@@ -25,18 +28,7 @@ public class JPAControler {
 	}
 
 	public List<Product> cargarProductos() {
-		
-		
-		//em = emf.createEntityManager();
-		
 		List<Product> productList = em.createQuery("Select a From Product a", Product.class).getResultList();
-		
-		
-		//em.clear(); 
-		//em.close(); 
-		//emf.close();
-		 
-		
 		return productList;
 	}
 	
@@ -45,6 +37,14 @@ public class JPAControler {
 		reg.setStock(newStock);
 		em.persist(reg);
 
+	}
+	public void persitObj(Object obj) {
+		em.persist(obj);
+	}
+	
+	public Client buscarUsuario(String usuario, String contrasenya) {	
+		TypedQuery <Client> cl = em.createQuery("SELECT c FROM Client c WHERE c.user = :custUser", Client.class);
+		return cl.setParameter("custUser", usuario).getSingleResult();
 	}
 	
 	public void commit() {
