@@ -1,5 +1,8 @@
 package com.java.so;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 import com.java.fx_controlers.ShoppingBasket;
@@ -17,9 +20,9 @@ public class Client {
 	@Basic(optional = false)
 	private String password;
 	
-	@OneToOne(fetch = FetchType.LAZY) //cambiar por onetomany
-	//List <ShoppingBasket> basketClient;
-	private ShoppingBasket basketClient;
+	@OneToMany(mappedBy="client",cascade=CascadeType.ALL, orphanRemoval=true)
+	private List <ShoppingBasket> basketClient = new ArrayList<ShoppingBasket>();
+	
 
 	
 	public Client(String nombre, String user, String password) {
@@ -34,7 +37,15 @@ public class Client {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	public void sendItemsPurchased() {
+		basketClient.clear(); 
+	}
+	public void addBasketItem(ShoppingBasket item) {
+		basketClient.add(item);
+	}
+	public List <ShoppingBasket> getBasketItems(){
+		return basketClient;
+	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -59,11 +70,9 @@ public class Client {
 		this.password = password;
 	}
 
-	public ShoppingBasket getBasketClient() {
-		return basketClient;
+	public long getIdCliente() {
+		return idCliente;
 	}
+	
 
-	public void setBasketClient(ShoppingBasket basketClient) {
-		this.basketClient = basketClient;
-	}
 }

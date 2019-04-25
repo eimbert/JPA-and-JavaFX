@@ -27,24 +27,16 @@ public class JPAControler {
 		em = emf.createEntityManager();
 	}
 
-	public List<Product> cargarProductos() {
-		List<Product> productList = em.createQuery("Select a From Product a", Product.class).getResultList();
-		return productList;
+	public EntityManager getEm() {
+		return em;
 	}
-	
-	public void persitObjProduct(Long idProducto, int newStock) {		 
-		Product reg = em.find(Product.class, idProducto);
-		reg.setStock(newStock);
-		em.persist(reg);
 
+	public void setEm(EntityManager em) {
+		this.em = em;
 	}
+
 	public void persitObj(Object obj) {
 		em.persist(obj);
-	}
-	
-	public Client buscarUsuario(String usuario, String contrasenya) {	
-		TypedQuery <Client> cl = em.createQuery("SELECT c FROM Client c WHERE c.user = :custUser", Client.class);
-		return cl.setParameter("custUser", usuario).getSingleResult();
 	}
 	
 	public void commit() {

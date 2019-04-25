@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.java.JPAconector.JPAClientControler;
 import com.java.JPAconector.JPAControler;
+import com.java.JPAconector.JPAProductControler;
 import com.java.fx_message_manager.ControlMensajes;
 import com.java.so.Client;
 import com.java.so.Product;
@@ -82,7 +84,7 @@ public class FormMainControler implements Initializable{
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		dataProducts.addAll(jpaControler.cargarProductos());
+		dataProducts.addAll(JPAProductControler.cargarProductos(jpaControler.getEm()));
 		listeners();
 		
 		ControlerTabViewProductos.cargarProductos(this, dataProducts);
@@ -97,30 +99,38 @@ public class FormMainControler implements Initializable{
 					ControlMensajes.mostrarAlerta("Es necesario identificarse antes de iniciar la compra.");
 				}else {
 					//Añadir poroducto a la cesta de la compra
-					jpaControler.persitObj(ControlerTabViewBasket.addProductToBasket(this, dataBasket));
+					ShoppingBasket auxSB = ControlerTabViewBasket.addProductToBasket(this, dataBasket, usuarioActivo);
+					usuarioActivo.addBasketItem(auxSB);
+					jpaControler.persitObj(auxSB);
 					ControlerTabViewBasket.cargarProductos(this, dataBasket);
 					actualizarTotalCesta();
 					actualizarStock();
 					
-					jpaControler.persitObjProduct(fx_tableView_Productos.getSelectionModel().getSelectedItem().getIdProduct(),
-												  fx_tableView_Productos.getSelectionModel().getSelectedItem().getStock());
+					JPAProductControler.persitObjProduct(fx_tableView_Productos.getSelectionModel().getSelectedItem().getIdProduct(),
+												  fx_tableView_Productos.getSelectionModel().getSelectedItem().getStock(),
+												  jpaControler.getEm());
 				}
 			}
 		});
 		
 		fx_btnRealizarPedido.setOnMouseClicked((MouseEvent mouseEvent) ->{
 			//commit del carrito, de los productos y del cliente
+			ControlerTabViewBasket.deleteBasket(this, dataBasket);
+			usuarioActivo.sendItemsPurchased();
+			jpaControler.persitObj(usuarioActivo);
 			jpaControler.commit();
 			jpaControler.closeEm();
-			//Borrar cesta compra
+			
 		});
 		
 		fx_btn_iniciar.setOnMouseClicked((MouseEvent mouseEvent) -> {
 			if("".equals(fx_contrasenya.getText()) || "".equals(fx_usuario.getText())){
 				ControlMensajes.mostrarAlerta("Es necesario introducir un usuario y contraseña validos.");
 			}else {
-				usuarioActivo = jpaControler.buscarUsuario(this.fx_usuario.getText(), this.fx_contrasenya.getText());
+				usuarioActivo = JPAClientControler.buscarUsuario(this.fx_usuario.getText(), this.fx_contrasenya.getText(), jpaControler.getEm());
 				fx_nombreDeUsuarioActivo.setText(usuarioActivo.getNombre());
+				dataBasket = FXCollections.observableList(usuarioActivo.getBasketItems());
+				ControlerTabViewBasket.cargarProductos(this, dataBasket);
 			}
 				
 		});

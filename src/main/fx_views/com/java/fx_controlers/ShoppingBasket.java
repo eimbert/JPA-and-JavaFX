@@ -5,10 +5,15 @@ import javax.persistence.AccessType;
 import javax.persistence.Basic;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+
+import com.java.so.Client;
 
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -31,6 +36,10 @@ public class ShoppingBasket {
 	@Basic(optional = false)
 	private int cantidad;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idCliente")
+	private Client client;
+	
 	@Transient
 	private Spinner spinnerQuantity = new Spinner();
 	@Transient
@@ -47,7 +56,7 @@ public class ShoppingBasket {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ShoppingBasket(long idProduct, String nameProduct, Double pvp, Spinner spinnerQuantity, int maxValueStock) {
+	public ShoppingBasket(long idProduct, String nameProduct, Double pvp, Spinner spinnerQuantity, int maxValueStock, Client client) {
 		super();
 		this.idProduct = idProduct;
 		this.nameProduct = nameProduct;
@@ -55,6 +64,7 @@ public class ShoppingBasket {
 		this.spinnerQuantity = spinnerQuantity;
 		this.totalAmount = pvp;
 		this.cantidad = 1;
+		this.client = client;
 						
 		valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, maxValueStock, initialValue);
 		spinnerQuantity.setValueFactory(valueFactory);
@@ -65,6 +75,14 @@ public class ShoppingBasket {
 			frmParent.actualizarTotalCesta();
 		});
 		
+	}
+ 
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
 	public int getCantidad() {

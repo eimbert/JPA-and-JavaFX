@@ -9,7 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import com.java.so.Client;
 public class ControlerTabViewBasket {
 
 	public static void cargarProductos(FormMainControler parentForm, ObservableList<ShoppingBasket> data) {
@@ -23,8 +23,12 @@ public class ControlerTabViewBasket {
 		parentForm.fx_tabViewCarrito_total.setCellValueFactory(new PropertyValueFactory<ShoppingBasket,Double>("totalAmount"));
 		
 	}
+	public static void deleteBasket(FormMainControler parentForm, ObservableList<ShoppingBasket> data) {
+		data.clear();
+		cargarProductos(parentForm, data);
+	}
 	
-	public static ShoppingBasket addProductToBasket(FormMainControler parentForm, ObservableList<ShoppingBasket> data) {
+	public static ShoppingBasket addProductToBasket(FormMainControler parentForm, ObservableList<ShoppingBasket> data, Client client) {
 		Product product = parentForm.fx_tableView_Productos.getSelectionModel().getSelectedItem();
 		
 		for(ShoppingBasket b: data) {
@@ -36,7 +40,7 @@ public class ControlerTabViewBasket {
 				return b;
 			}
 		}
-		ShoppingBasket basket = new ShoppingBasket(product.getIdProduct(),  product.getNameProduct(),  product.getPrice(), new Spinner(), product.getStock());
+		ShoppingBasket basket = new ShoppingBasket(product.getIdProduct(),  product.getNameProduct(),  product.getPrice(), new Spinner(), product.getStock(), client);
 		basket.setFrmParent(parentForm);
 		data.add(basket);
 		return basket;
